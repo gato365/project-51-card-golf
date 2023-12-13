@@ -11,7 +11,7 @@ class Card:
     VALID_SUITS = ['Hearts', 'Diamonds', 'Spades', 'Clubs']
     VALID_VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 
-    def __init__(self, suit, value):
+    def __init__(self, suit, value, revealed=False):
         if suit not in self.VALID_SUITS:
             raise ValueError(f"Invalid suit: {suit}")
         if value not in self.VALID_VALUES:
@@ -19,6 +19,10 @@ class Card:
 
         self.suit = suit
         self.value = value
+        self.revealed = revealed  # Add the revealed attribute
+
+    def reveal(self):
+        self.revealed = True  # Add a method to reveal the card
 
     def __repr__(self):
         return f"{self.value} of {self.suit}"
@@ -30,6 +34,9 @@ class Deck:
         SUITS = ['Hearts', 'Diamonds', 'Spades', 'Clubs']
         VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
         self.cards = [Card(suit, value) for suit in SUITS for value in VALUES]
+        
+    def __len__(self):
+        return len(self.cards)
 
     def shuffle(self):
         random.shuffle(self.cards)
@@ -47,6 +54,9 @@ class Deck:
         discard_pile.clear()
         self.shuffle()
     
+    def draw_card(self):
+        return self.cards.pop()
+    
     
 
 # Player class
@@ -56,11 +66,25 @@ class Player:
         self.hand = []
 
     def draw(self, deck):
-        card = deck.deal()
-        if card:
-            self.hand.append(card)
+        card = deck.draw_card()
+        self.hand.append(card)
+        return card
+
+    def reveal_card(self, index):
+        # Check if the card is in the hand and hasn't been revealed yet
+        if index < len(self.hand) and not self.hand[index].revealed:
+            card = self.hand[index]
+            card.reveal()  # Reveal the card
+            print(f"{self.name} revealed: {card}")
             return card
-        return None
+        else:
+            print("Invalid card index or card already revealed")
+            return None
+
+    def display_hand(self):
+        # Display the revealed cards and hide the rest
+        displayed_hand = [str(card) if card.revealed else 'Unknown' for card in self.hand]
+        return ', '.join(displayed_hand)
 
     def show_cards(self):
         return self.hand
@@ -90,6 +114,21 @@ class Player:
                 score += int(card.value)
             elif card.value in ['J', 'Q', 'K']:  # For face cards, the score is 10
                 score += 10
+        return score
+    
+    def calculate_score(self):
+        score = 0
+        
+        for card in self.hand:
+            if card.revealed:
+                if card.value == '2':  # For '2', the score is -2
+                    score -= 2
+                elif card.value == 'A':  # For 'A', the score is 1
+                    score += 1
+                elif card.value.isdigit():  # For other numerical cards, the score is the card's value
+                    score += int(card.value)
+                elif card.value in ['J', 'Q', 'K']:  # For face cards, the score is 10
+                    score += 10
         return score
 
 class GolfGame:
@@ -149,3 +188,7 @@ class GolfGame:
 
         # Calculate final scores
         self.calculate_scores()
+    
+    def display_all_hands(self):
+        for player in self.players:
+            print(f"{player.name}'s hand: {player.display_hand()}")
