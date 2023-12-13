@@ -62,7 +62,35 @@ class Player:
             return card
         return None
 
-    # Add more methods for player actions, such as show_cards, swap_card, etc.
+    def show_cards(self):
+        return self.hand
+
+    def discard(self, card, deck):
+        if card in self.hand:
+            self.hand.remove(card)
+            deck.replenish([card])
+
+    def swap_card(self, card, deck):
+        if card in self.hand:
+            self.hand.remove(card)
+            new_card = deck.deal()
+            self.hand.append(new_card)
+            deck.replenish([card])
+            return new_card
+        return None
+
+    def score(self):
+        score = 0
+        for card in self.hand:
+            if card.value == '2':  # For '2', the score is -2
+                score -= 2
+            elif card.value == 'A':  # For 'A', the score is 1
+                score += 1
+            elif card.value.isdigit():  # For other numerical cards, the score is the card's value
+                score += int(card.value)
+            elif card.value in ['J', 'Q', 'K']:  # For face cards, the score is 10
+                score += 10
+        return score
 
 # Game class
 class GolfGame:
