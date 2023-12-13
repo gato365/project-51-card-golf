@@ -135,10 +135,12 @@ class GolfGame:
         self.discard_pile = []
 
     def calculate_scores(self):
-        # Calculate and print scores for all players
+        # Calculate and return scores for all players
+        scores = {}
         for player in self.players:
             score = player.score()
-            print(f"{player.name}'s score: {score}")
+            scores[player.name] = score
+        return scores
 
     def play_game(self):
         # Play rounds until the deck is empty
