@@ -27,16 +27,27 @@ class Card:
 # Deck class
 class Deck:
     def __init__(self):
+        SUITS = ['Hearts', 'Diamonds', 'Spades', 'Clubs']
+        VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
         self.cards = [Card(suit, value) for suit in SUITS for value in VALUES]
 
     def shuffle(self):
         random.shuffle(self.cards)
-
+        
+    def count(self):
+        return len(self.cards)
+    
     def deal(self):
-        if len(self.cards) > 0:
-            return self.cards.pop(0)
-        else:
-            return None
+        if self.count() == 0:
+            raise ValueError("Cannot deal from an empty deck")
+        return self.cards.pop(0)
+
+    def replenish(self, discard_pile):
+        self.cards.extend(discard_pile)
+        discard_pile.clear()
+        self.shuffle()
+    
+    
 
 # Player class
 class Player:
@@ -58,6 +69,7 @@ class GolfGame:
     def __init__(self, players):
         self.deck = Deck()
         self.deck.shuffle()
+        self.discard_pile = []  # Initialize the discard pile
         self.players = [Player(name) for name in players]
         self.current_player_index = 0
 
@@ -83,4 +95,7 @@ class GolfGame:
         for _ in range(len(self.players)):
             self.take_turn()
 
+
+    def replenish_deck_from_discard(self):
+        self.deck.replenish(self.discard_pile)
     # Additional methods for game logic, scoring, etc., can be added here
