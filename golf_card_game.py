@@ -8,12 +8,21 @@ VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 
 # Card class
 class Card:
+    VALID_SUITS = ['Hearts', 'Diamonds', 'Spades', 'Clubs']
+    VALID_VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+
     def __init__(self, suit, value):
+        if suit not in self.VALID_SUITS:
+            raise ValueError(f"Invalid suit: {suit}")
+        if value not in self.VALID_VALUES:
+            raise ValueError(f"Invalid value: {value}")
+
         self.suit = suit
         self.value = value
 
     def __repr__(self):
         return f"{self.value} of {self.suit}"
+
 
 # Deck class
 class Deck:
