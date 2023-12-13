@@ -92,7 +92,6 @@ class Player:
                 score += 10
         return score
 
-# Game class
 class GolfGame:
     def __init__(self, players):
         self.deck = Deck()
@@ -104,18 +103,23 @@ class GolfGame:
     def start_game(self):
         # Deal 6 cards to each player
         for player in self.players:
-            player.draw_hand(self.deck, 6)
+            for _ in range(6):
+                player.draw(self.deck)
 
     def take_turn(self):
         # Current player takes their turn
         current_player = self.players[self.current_player_index]
         print(f"It's {current_player.name}'s turn.")
 
-        # Example turn logic (can be expanded with game rules)
+        # Player can either draw from deck or discard pile
         drawn_card = current_player.draw(self.deck)
         print(f"{current_player.name} drew {drawn_card}")
 
-        # Example of moving to the next player
+        # Player discards a card
+        discarded_card = current_player.discard(drawn_card, self.deck)
+        self.discard_pile.append(discarded_card)
+
+        # Move to the next player
         self.current_player_index = (self.current_player_index + 1) % len(self.players)
 
     def play_round(self):
@@ -123,7 +127,23 @@ class GolfGame:
         for _ in range(len(self.players)):
             self.take_turn()
 
+        # At the end of the round, replenish the deck from the discard pile
+        self.replenish_deck_from_discard()
 
     def replenish_deck_from_discard(self):
         self.deck.replenish(self.discard_pile)
-    # Additional methods for game logic, scoring, etc., can be added here
+        self.discard_pile = []
+
+    def calculate_scores(self):
+        # Calculate and print scores for all players
+        for player in self.players:
+            score = player.score()
+            print(f"{player.name}'s score: {score}")
+
+    def play_game(self):
+        # Play rounds until the deck is empty
+        while len(self.deck) > 0:
+            self.play_round()
+
+        # Calculate final scores
+        self.calculate_scores()
