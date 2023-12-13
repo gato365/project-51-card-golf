@@ -1,50 +1,44 @@
 # Import the Card class from golf_game.py
 from golf_card_game import Card
 
-def test_card_creation():
-    # Create a card instance
-    card = Card("Hearts", "10")
-    assert card.suit == "Hearts", "Suit should be Hearts"
-    assert card.value == "10", "Value should be 10"
+
+def test_valid_card_creation():
+    # Test creation of cards with valid suits and values
+    for suit in Card.VALID_SUITS:
+        for value in Card.VALID_VALUES:
+            try:
+                card = Card(suit, value)
+                assert card.suit == suit and card.value == value, f"Failed to create {value} of {suit}"
+            except ValueError:
+                assert False, f"Valid card {value} of {suit} raised ValueError"
 
 def test_card_representation():
-    # Create a card instance
+    # Create a card instance and test its string representation
     card = Card("Spades", "A")
-    # Test the string representation
     assert str(card) == "A of Spades", "String representation should be 'A of Spades'"
 
-# Add more test functions as needed
 
 
-def test_card_validity():
-    # Test valid card creation
+def test_invalid_card_creation():
+    # Test creation of cards with invalid suits and values
+    invalid_suit = "Rocks"
+    invalid_value = "11"
     try:
-        Card("Hearts", "10")
-        Card("Spades", "A")
-        # Add more combinations as needed
-    except Exception as e:
-        print(f"Test failed with exception: {e}")
-        raise
-
-    # Optionally, test invalid card creation
-    try:
-        Card("Spades", "10")
-        assert True, "Invalid suit should raise an exception"
+        Card(invalid_suit, Card.VALID_VALUES[0])
+        assert False, "Invalid suit should raise ValueError"
     except ValueError:
-        pass  # This is the expected behavior
+        pass  # This is expected
+
+    try:
+        Card(Card.VALID_SUITS[0], invalid_value)
+        assert False, "Invalid value should raise ValueError"
+    except ValueError:
+        pass  # This is expected
 
 
-
-# Run the test
+# Run the tests
 if __name__ == "__main__":
-    test_card_validity()
-    print("All card validity tests passed!")
-
-
-
-# Running the test functions
-if __name__ == "__main__":
-    test_card_creation()
+    test_valid_card_creation()
     test_card_representation()
-    test_card_validity()
-    print("All tests passed!")
+    test_invalid_card_creation()
+    print("All card tests passed!")
