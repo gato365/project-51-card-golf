@@ -27,7 +27,6 @@ class Card:
     def __repr__(self):
         return f"{self.value} of {self.suit}"
 
-
 # Deck class
 class Deck:
     def __init__(self):
@@ -57,8 +56,6 @@ class Deck:
     def draw_card(self):
         return self.cards.pop()
     
-    
-
 # Player class
 class Player:
     def __init__(self, name):
@@ -67,9 +64,10 @@ class Player:
 
     def draw(self, deck):
         card = deck.draw_card()
-        if len(self.hand) < 2:  # The first two cards are always revealed
-            card.reveal()
-        self.hand.append(card)
+        if card is not None:
+            if len(self.hand) < 2:  # The first two cards are always revealed
+                card.reveal()
+            self.hand.append(card)
         return card
 
     def reveal_card(self, index):
@@ -133,6 +131,7 @@ class Player:
                     score += 10
         return score
 
+# Golf Game class
 class GolfGame:
     def __init__(self, players):
         self.deck = Deck()
@@ -152,13 +151,14 @@ class GolfGame:
         current_player = self.players[self.current_player_index]
         print(f"It's {current_player.name}'s turn.")
 
-        # Player can either draw from deck or discard pile
-        drawn_card = current_player.draw(self.deck)
-        print(f"{current_player.name} drew {drawn_card}")
+        # Player can only draw from deck if it's not empty
+        if len(self.deck) > 0:
+            drawn_card = current_player.draw(self.deck)
+            print(f"{current_player.name} drew {drawn_card}")
 
-        # Player discards a card
-        discarded_card = current_player.discard(drawn_card, self.deck)
-        self.discard_pile.append(discarded_card)
+            # Player discards a card
+            discarded_card = current_player.discard(drawn_card, self.deck)
+            self.discard_pile.append(discarded_card)
 
         # Move to the next player
         self.current_player_index = (self.current_player_index + 1) % len(self.players)
