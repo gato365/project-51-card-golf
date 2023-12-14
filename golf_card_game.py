@@ -67,6 +67,8 @@ class Player:
 
     def draw(self, deck):
         card = deck.draw_card()
+        if len(self.hand) < 2:  # The first two cards are always revealed
+            card.reveal()
         self.hand.append(card)
         return card
 

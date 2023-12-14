@@ -1,5 +1,54 @@
 # Golf Card Game Project
 
+
+## **Golf Card Game Procedure**
+
+1. **Setup**:
+   - Use a standard 52-card deck.
+   - Shuffle the deck thoroughly.
+
+2. **Dealing**:
+   - Each player is dealt six cards, face down.
+   - Players may not look at their cards during the deal.
+
+3. **Initial Reveal**:
+   - Each player selects two of their six cards at random and reveals them to all players, including themselves. The other four cards remain face down and unknown.
+
+4. **Creating the Discard Pile**:
+   - The dealer flips the top card from the remaining deck to start the discard pile, making this card visible to all players.
+
+5. **Gameplay**:
+   - The player to the right of the dealer (designated as 'North') begins.
+   - Players take turns in a clockwise direction.
+
+6. **Player's Turn**:
+   - Each player has two options for their draw:
+     - **Option 1**: Draw the visible top card from the discard pile.
+     - **Option 2**: Draw a hidden card from the top of the deck.
+
+7. **Card Replacement**:
+   - After drawing a card, the player replaces one of their six cards with the drawn card.
+     - If the card was drawn from the discard pile, it can replace any one of the six cards (known or unknown).
+     - If the card was drawn from the deck, it typically replaces one of the known cards.
+   - The replaced card is then revealed to all players (if it was unknown) and placed face up on the discard pile.
+
+8. **Continuing Play**:
+   - Play continues with each player taking turns, drawing and replacing cards.
+
+9. **End of the Round**:
+   - The round can end based on predetermined conditions, such as when the deck is depleted or after a set number of turns.
+
+10. **Scoring**:
+   - At the end of a round, players reveal all their cards.
+   - Scores are calculated based on the values of the cards (numerical value for number cards, 10 for face cards, 1 for Aces).
+   - The goal is to have the lowest score.
+
+11. **Winning the Game**:
+   - After a set number of rounds (like nine or eighteen, akin to golf), the player with the lowest cumulative score wins.
+
+
+
+
 ## 1. Basic Game Setup (Deck, Cards, and Dealing)
 
 ### Implementation
@@ -63,3 +112,6 @@
 ### Testing and Debugging
 - [ ] Test the interface for usability and clarity.
 - [ ] Debug any issues with user inputs or interface displays.
+
+
+
