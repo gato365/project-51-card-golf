@@ -114,4 +114,35 @@
 - [ ] Debug any issues with user inputs or interface displays.
 
 
+GolfGame
+|
+|-- players: List[Player]
+|-- deck: Deck
+|-- discard_pile: List[Card]
+|
+|-- start_game()
+|-- play_round()
+|-- take_turn()
+|-- display_all_hands()
+|-- reveal_card_and_check_game_over()  # proposed method
 
+Player
+|
+|-- hand: List[Card]
+|
+|-- draw(deck: Deck)
+|-- discard(card: Card, discard_pile: List[Card])
+|-- swap_card(card: Card, deck: Deck)
+|-- reveal_card(index: int)
+|-- calculate_score()
+
+Deck
+|
+|-- cards: List[Card]
+|
+|-- shuffle()
+|-- draw_card()
+
+Card
+|
+|-- reveal()

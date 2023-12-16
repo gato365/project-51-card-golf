@@ -2,7 +2,7 @@ import golf_card_game as gcg
 import random
 
 # Initialize the game
-game = gcg.GolfGame(['Player 1', 'Player 2'])
+game = gcg.GolfGame(['Eman', 'Kelley'])
 
 # Start the game and display initial hands
 game.start_game()
