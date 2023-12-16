@@ -89,10 +89,10 @@ class Player:
     def show_cards(self):
         return self.hand
 
-    def discard(self, card, deck):
+    def discard(self, card, discard_pile):
         if card in self.hand:
             self.hand.remove(card)
-            deck.replenish([card])
+            discard_pile.append(card)
 
     def swap_card(self, card, deck):
         if card in self.hand:
@@ -157,8 +157,7 @@ class GolfGame:
             print(f"{current_player.name} drew {drawn_card}")
 
             # Player discards a card
-            discarded_card = current_player.discard(drawn_card, self.deck)
-            self.discard_pile.append(discarded_card)
+            discarded_card = current_player.discard(drawn_card, self.discard_pile)
 
         # Move to the next player
         self.current_player_index = (self.current_player_index + 1) % len(self.players)
